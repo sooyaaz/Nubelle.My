@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1300">
+    <title>Shipping Policy | Nubelle</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Italiana&family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* =========================================
+           1. MASTER VARIABLE SYSTEM
+           ========================================= */
+        :root {
+            /* Light Theme */
+            --bg-body: #F9F7F2;
+            --bg-surface: #FFFFFF;
+            --text-main: #2C2622;
+            --text-muted: #6D5D50;
+            --accent-gold: #8D6E63;
+            --border-light: #E6DDD5;
+            
+            /* Footer */
+            --footer-bg: #1F1B18;
+            --footer-text: #EAE0D5;
+
+            /* Animation */
+            --ease-lux: cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        /* Dark Theme */
+        [data-theme="dark"] {
+            --bg-body: #1F1B18;
+            --bg-surface: #26221E;
+            --text-main: #EAE0D5;
+            --text-muted: #A89F99;
+            --accent-gold: #C6B3A9;
+            --border-light: #3E3832;
+            --footer-bg: #0F0D0C;
+        }
+
+        /* =========================================
+           2. GLOBAL RESET
+           ========================================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { font-size: 16px; scroll-behavior: smooth; overflow-x: hidden; }
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.8;
+            transition: background-color 0.6s ease, color 0.6s ease;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Italiana', serif; font-weight: 400; }
+        p { margin-bottom: 20px; color: var(--text-muted); font-size: 1.05rem; }
+        ul { margin-bottom: 20px; padding-left: 20px; color: var(--text-muted); }
+        li { margin-bottom: 10px; }
+        .brand-font { font-family: 'Italiana', serif; }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        button { border: none; background: none; cursor: pointer; color: inherit; font-family: inherit; }
+
+        /* =========================================
+           3. HEADER (Standardized)
+           ========================================= */
+        header {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            padding: 20px 5%; display: flex; justify-content: space-between; align-items: center;
+            transition: 0.4s ease;
+        }
+        header.scrolled {
+            background: rgba(249, 247, 242, 0.9); backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-light); padding: 15px 5%;
+        }
+        [data-theme="dark"] header.scrolled { background: rgba(31, 27, 24, 0.9); }
+
+        .logo { font-size: 2.5rem; letter-spacing: 1px; color: var(--text-main); }
+        
+        nav ul { display: flex; gap: 30px; }
+        
+        /* Nav Links with Hover Line Animation */
+        nav a { 
+            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; 
+            position: relative; opacity: 0.7; padding-bottom: 5px; 
+        }
+        nav a::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1px;
+            background: currentColor; transition: width 0.3s ease;
+        }
+        nav a:hover::after, nav a.active::after { width: 100%; }
+        nav a:hover, nav a.active { opacity: 1; }
+
+        .toolbar { display: flex; gap: 15px; }
+        .t-btn { width: 40px; height: 40px; border: 1px solid var(--border-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.3s; font-size: 0.8rem; }
+        .t-btn:hover { background: var(--text-main); color: var(--bg-body); border-color: var(--text-main); }
+        @media (max-width: 900px) { nav { display: none; } }
+
+        /* =========================================
+           4. POLICY CONTENT
+           ========================================= */
+        .policy-container { max-width: 900px; margin: 150px auto 100px; padding: 0 5%; }
+        
+        .policy-header { text-align: center; margin-bottom: 80px; }
+        .policy-date { font-family: 'Cinzel'; font-size: 0.8rem; color: var(--accent-gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        .policy-header h1 { font-size: 3.5rem; margin-bottom: 20px; line-height: 1.1; }
+        
+        .policy-content {
+            background: var(--bg-surface); padding: 60px; border: 1px solid var(--border-light);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.03);
+        }
+        
+        .policy-content h2 { 
+            font-size: 1.8rem; margin-top: 40px; margin-bottom: 20px; 
+            border-left: 3px solid var(--accent-gold); padding-left: 20px; 
+        }
+
+        .policy-contact {
+            margin-top: 60px; padding-top: 40px; border-top: 1px solid var(--border-light);
+            text-align: center;
+        }
+        .mail-link { font-family: 'Cinzel'; border-bottom: 1px solid var(--accent-gold); padding-bottom: 2px; font-size: 0.9rem; letter-spacing: 1px; }
+
+        /* =========================================
+           5. FOOTER (Standardized)
+           ========================================= */
+        footer { background: var(--footer-bg); color: var(--footer-text); padding: 80px 5% 40px; }
+        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.5fr; gap: 40px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 60px; }
+        
+        .f-brand h2 { font-family: 'Italiana', serif; font-size: 2.5rem; color: #fff; margin-bottom: 20px; }
+        .f-brand p { opacity: 0.7; font-size: 0.95rem; line-height: 1.6; max-width: 300px; margin-bottom: 25px; }
+        
+        .socials { display: flex; gap: 15px; }
+        .s-btn { width: 40px; height: 40px; background: #8D7B68; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #2C2622; transition: 0.3s; }
+        .s-btn:hover { background: #fff; transform: translateY(-3px); }
+        
+        .f-col h4 { font-family: 'Cinzel'; font-size: 0.9rem; color: #fff; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 25px; }
+        .f-col ul { list-style: none; padding: 0; }
+        .f-col ul li { margin-bottom: 12px; }
+        .f-col a { font-size: 0.95rem; opacity: 0.7; transition: 0.3s; }
+        .f-col a:hover { opacity: 1; color: var(--accent-gold); }
+        
+        .contact-row { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; font-size: 0.95rem; opacity: 0.8; }
+        .contact-row i { width: 20px; color: var(--accent-gold); }
+        
+        .copyright { text-align: center; margin-top: 40px; font-size: 0.8rem; opacity: 0.5; }
+
+        @media (max-width: 768px) { nav { display: none; } .footer-grid { grid-template-columns: 1fr; } .policy-content { padding: 30px; } }
+        
+        /* Animations */
+        .reveal { opacity: 0; transform: translateY(30px); transition: 1s var(--ease-lux); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo brand-font">Nubelle</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="categories.html">Shop Categories</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="product-care.html">Product Care</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="toolbar">
+            <button class="t-btn" id="currBtn" onclick="toggleCurrency()">MYR</button>
+            <button class="t-btn" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
+            <a href="cart.html" class="t-btn"><i class="fas fa-shopping-bag"></i></a>
+        </div>
+    </header>
+
+    <main class="policy-container">
+        <div class="policy-header reveal">
+            <div class="policy-date">Global Delivery</div>
+            <h1>Shipping Policy</h1>
+            <p>Bringing Nubelle directly to your doorstep.</p>
+        </div>
+
+        <div class="policy-content reveal">
+            <h2>1. Processing Time</h2>
+            <p>All orders are processed within <strong>1-3 business days</strong>. Orders are not shipped or delivered on weekends or holidays.</p>
+
+            <h2>2. Domestic Shipping (Malaysia)</h2>
+            <p>We are proud to be based in Kuala Lumpur. For our local customers:</p>
+            <ul>
+                <li><strong>Standard Shipping:</strong> MYR 8.00 (West Malaysia) / MYR 15.00 (East Malaysia).</li>
+                <li><strong>Free Shipping:</strong> Available for all orders over <strong>MYR 200</strong>.</li>
+                <li><strong>Estimated Time:</strong> 2-5 business days.</li>
+            </ul>
+
+            <h2>3. International Shipping</h2>
+            <p>We ship globally to select countries including Singapore, Indonesia, and Brunei.</p>
+            <ul>
+                <li>Rates are calculated at checkout based on weight and destination.</li>
+                <li>International orders may be subject to import taxes/duties, which are the responsibility of the customer.</li>
+            </ul>
+
+            <h2>4. Order Tracking</h2>
+            <p>Once your order has shipped, you will receive an email with a tracking number to monitor the journey of your package.</p>
+
+            <div class="policy-contact">
+                <p>Where is my order?</p>
+                <a href="mailto:nubelle.my@gmail.com" class="mail-link">Track Your Order</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="f-brand">
+                <h2>Nubelle</h2>
+                <p>Premium quality bags and sandals crafted with excellence. Redefining daily luxury for the modern soul.</p>
+                <div class="socials">
+                    <a href="https://www.instagram.com/nubelle.my" target="_blank" class="s-btn"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.tiktok.com/@nubelle.my" target="_blank" class="s-btn"><i class="fab fa-tiktok"></i></a>
+                    <a href="mailto:nubelle.my@gmail.com" class="s-btn"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+
+            <div class="f-col">
+                <h4>QUICK LINKS</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="categories.html">Shop All</a></li>
+                    <li><a href="product-care.html">Product Care</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="f-col">
+                <h4>POLICIES</h4>
+                <ul>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="terms-conditions.html">Terms & Conditions</a></li>
+                    <li><a href="shipping-policy.html">Shipping Policy</a></li>
+                    <li><a href="return-policy.html">Return Policy</a></li>
+                </ul>
+            </div>
+
+            <div class="f-col">
+                <h4>CONTACT US</h4>
+                <ul>
+                    <li class="contact-row"><i class="fas fa-envelope"></i> nubelle.my@gmail.com</li>
+                    <li class="contact-row"><i class="fas fa-map-marker-alt"></i> Kuala Lumpur, Malaysia</li>
+                    <li class="contact-row"><i class="fas fa-clock"></i> Mon - Fri: 9am - 6pm</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2026 Nubelle. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Scroll Reveal
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Header Scroll
+        window.addEventListener('scroll', () => {
+            const h = document.querySelector('header');
+            window.scrollY > 50 ? h.classList.add('scrolled') : h.classList.remove('scrolled');
+        });
+
+        // Theme & Currency
+        document.addEventListener('DOMContentLoaded', () => {
+            if(!localStorage.getItem('nubelle_theme')) {
+                localStorage.setItem('nubelle_theme', 'light');
+                document.documentElement.setAttribute('data-theme', 'light');
+            } else {
+                document.documentElement.setAttribute('data-theme', localStorage.getItem('nubelle_theme'));
+            }
+            updateCurrencyUI();
+        });
+
+        function toggleTheme() {
+            const curr = document.documentElement.getAttribute('data-theme');
+            const next = curr === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('nubelle_theme', next);
+        }
+
+        const rates = { MYR: 1, IDR: 3500, USD: 0.24 };
+        const currencies = ["MYR", "IDR", "USD"];
+        let curCurrIdx = parseInt(localStorage.getItem('nubelle_curr')) || 0;
+
+        function toggleCurrency() {
+            curCurrIdx = (curCurrIdx + 1) % currencies.length;
+            localStorage.setItem('nubelle_curr', curCurrIdx);
+            updateCurrencyUI();
+        }
+
+        function updateCurrencyUI() {
+            const code = currencies[curCurrIdx];
+            document.getElementById('currBtn').innerText = code;
+        }
+    </script>
+</body>
+</html>

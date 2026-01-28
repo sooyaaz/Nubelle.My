@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1300">
+    <title>Product Care | Nubelle</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Italiana&family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* =========================================
+           1. MASTER VARIABLE SYSTEM
+           ========================================= */
+        :root {
+            --bg-body: #F9F7F2;
+            --bg-surface: #FFFFFF;
+            --text-main: #2C2622;
+            --text-muted: #6D5D50;
+            --accent-gold: #8D6E63;
+            --border-light: #E6DDD5;
+            --footer-bg: #1F1B18;
+            --footer-text: #EAE0D5;
+            --ease-lux: cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        [data-theme="dark"] {
+            --bg-body: #1F1B18;
+            --bg-surface: #26221E;
+            --text-main: #EAE0D5;
+            --text-muted: #A89F99;
+            --accent-gold: #C6B3A9;
+            --border-light: #3E3832;
+            --footer-bg: #0F0D0C;
+        }
+
+        /* =========================================
+           2. GLOBAL RESET
+           ========================================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { font-size: 16px; scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.8;
+            transition: background-color 0.6s ease, color 0.6s ease;
+            min-width: 1300px; /* STATIC DESKTOP LOCK */
+            overflow-x: auto;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Italiana', serif; font-weight: 400; }
+        .subtitle { font-family: 'Cinzel', serif; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem; color: var(--accent-gold); }
+        .serif-italic { font-family: 'Playfair Display', serif; font-style: italic; }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        button { border: none; background: none; cursor: pointer; color: inherit; font-family: inherit; }
+
+        /* =========================================
+           3. HEADER
+           ========================================= */
+        header {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            padding: 20px 5%; display: flex; justify-content: space-between; align-items: center;
+            transition: 0.4s ease;
+            min-width: 1300px;
+        }
+        header.scrolled {
+            background: rgba(249, 247, 242, 0.9); backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-light); padding: 15px 5%;
+        }
+        [data-theme="dark"] header.scrolled { background: rgba(31, 27, 24, 0.9); }
+
+        .logo { font-size: 2.5rem; letter-spacing: 1px; color: var(--text-main); font-family: 'Italiana'; }
+        
+        nav ul { display: flex; gap: 30px; }
+        nav a { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; position: relative; opacity: 0.7; padding-bottom: 5px; }
+        nav a::after { content:''; position: absolute; bottom: 0; left: 0; width: 0; height: 1px; background: currentColor; transition: width 0.3s ease; }
+        nav a:hover::after, nav a.active::after { width: 100%; }
+        nav a:hover, nav a.active { opacity: 1; }
+
+        .toolbar { display: flex; gap: 15px; }
+        .t-btn { width: 40px; height: 40px; border: 1px solid var(--border-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.3s; font-size: 0.8rem; position: relative; }
+        .t-btn:hover { background: var(--text-main); color: var(--bg-body); border-color: var(--text-main); }
+        
+        .cart-badge {
+            position: absolute; top: -5px; right: -5px;
+            background: var(--accent-gold); color: #fff;
+            width: 18px; height: 18px; border-radius: 50%;
+            font-size: 0.6rem; display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: 0.3s;
+        }
+        .cart-badge.show { opacity: 1; }
+
+        /* =========================================
+           4. HERO SECTION
+           ========================================= */
+        .care-hero {
+            height: 60vh; position: relative; display: flex; align-items: center; justify-content: center;
+            text-align: center; color: #fff; overflow: hidden;
+            min-width: 1300px;
+        }
+        .care-bg {
+            position: absolute; inset: 0; width: 100%; height: 120%; object-fit: cover; z-index: -1;
+            filter: brightness(0.6); animation: slowZoom 20s infinite alternate;
+        }
+        @keyframes slowZoom { from { transform: scale(1); } to { transform: scale(1.1); } }
+        
+        .hero-content h1 { font-size: 4.5rem; margin-bottom: 10px; opacity: 0; animation: fadeUp 1s var(--ease-lux) forwards; }
+        .hero-content .subtitle { color: #fff; opacity: 0; animation: fadeUp 1s var(--ease-lux) 0.2s forwards; }
+
+        /* =========================================
+           5. CARE CONTENT LAYOUT
+           ========================================= */
+        .care-intro {
+            text-align: center; max-width: 800px; margin: 100px auto; padding: 0 5%;
+        }
+        .care-intro h2 { font-size: 3rem; margin-bottom: 20px; line-height: 1.2; }
+        .care-intro p { font-size: 1.1rem; color: var(--text-muted); }
+
+        .care-section {
+            display: grid; grid-template-columns: 1fr 1fr; 
+            min-height: 600px; border-bottom: 1px solid var(--border-light);
+        }
+        .care-section:last-child { border-bottom: none; }
+        
+        .care-section.alt .care-img { order: 2; }
+        .care-section.alt .care-text { order: 1; }
+
+        .care-img { position: relative; overflow: hidden; height: 100%; min-height: 600px; }
+        .care-img img { transition: transform 1.5s ease; }
+        .care-section:hover .care-img img { transform: scale(1.05); }
+
+        .care-text {
+            padding: 80px; display: flex; flex-direction: column; justify-content: center;
+            background: var(--bg-surface);
+        }
+        .care-text h3 { font-size: 2.5rem; margin-bottom: 30px; position: relative; display: inline-block; }
+        .care-text h3::after {
+            content: ''; position: absolute; bottom: -10px; left: 0; width: 60px; height: 1px; background: var(--accent-gold);
+        }
+        
+        .care-list { list-style: none; margin-top: 20px; }
+        .care-list li {
+            margin-bottom: 25px; padding-left: 30px; position: relative;
+            color: var(--text-muted); font-size: 1.05rem;
+        }
+        .care-list li::before {
+            content: '•'; position: absolute; left: 0; color: var(--accent-gold); font-size: 1.5rem; line-height: 1; top: -2px;
+        }
+        .care-list strong { color: var(--text-main); font-weight: 600; font-family: 'Cinzel'; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; display: block; margin-bottom: 5px; }
+
+        /* General Care */
+        .general-care {
+            padding: 100px 5%; text-align: center; background: var(--bg-body);
+            max-width: 1000px; margin: 0 auto;
+        }
+        .gc-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 50px; margin-top: 60px;
+        }
+        .gc-item { padding: 30px; border: 1px solid var(--border-light); transition: 0.3s; background: var(--bg-surface); }
+        .gc-item:hover { transform: translateY(-10px); border-color: var(--accent-gold); }
+        .gc-icon { font-size: 2rem; color: var(--accent-gold); margin-bottom: 20px; }
+        .gc-item h4 { font-family: 'Cinzel'; margin-bottom: 15px; font-size: 1rem; }
+        .gc-item p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; }
+
+       /* =========================================
+         6. AI CHAT WIDGET (Updated with 'N' Logo)
+        ========================================= */
+        .chat-widget {
+              position: fixed; bottom: 30px; right: 30px; z-index: 9999;
+        }
+
+         .chat-btn {
+    width: 60px; height: 60px; border-radius: 50%;
+    background: var(--text-main); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    /* BRAND FONT UPDATE */
+    font-family: 'Italiana', serif; 
+    font-size: 2rem; /* Larger size for the letter N */
+    font-weight: 400;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    transition: 0.3s var(--ease-lux);
+    border: none;
+        }
+.chat-btn:hover { transform: scale(1.1); background: var(--accent-gold); }
+
+.chat-box {
+    position: absolute; bottom: 80px; right: 0;
+    width: 380px; height: 500px;
+    background: var(--bg-surface); border: 1px solid var(--border-light);
+    border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+    display: flex; flex-direction: column; overflow: hidden;
+    transform: translateY(20px); opacity: 0; pointer-events: none;
+    transition: 0.4s var(--ease-lux); transform-origin: bottom right;
+}
+.chat-box.active { transform: translateY(0); opacity: 1; pointer-events: all; }
+
+.chat-header {
+    background: var(--text-main); color: #fff; padding: 15px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+}
+.chat-header h4 { font-family: 'Cinzel'; font-size: 0.9rem; letter-spacing: 1px; margin: 0; }
+.close-chat { cursor: pointer; opacity: 0.7; transition: 0.2s; }
+.close-chat:hover { opacity: 1; }
+
+.chat-body {
+    flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px;
+    background: var(--bg-body);
+}
+
+.msg { max-width: 85%; padding: 12px 16px; border-radius: 10px; font-size: 0.9rem; line-height: 1.5; }
+.msg.bot { background: var(--bg-surface); border: 1px solid var(--border-light); align-self: flex-start; border-bottom-left-radius: 2px; }
+.msg.user { background: var(--accent-gold); color: #fff; align-self: flex-end; border-bottom-right-radius: 2px; }
+
+.chat-input-area {
+    padding: 15px; background: var(--bg-surface); border-top: 1px solid var(--border-light);
+    display: flex; gap: 10px;
+}
+.chat-input {
+    flex: 1; border: 1px solid var(--border-light); padding: 10px; border-radius: 20px;
+    outline: none; font-family: 'Lato'; background: var(--bg-body); color: var(--text-main);
+}
+.send-btn { color: var(--accent-gold); cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; }
+
+        /* =========================================
+           7. FOOTER
+           ========================================= */
+        footer { background: var(--footer-bg); color: var(--footer-text); padding: 80px 5% 40px; min-width: 1300px; }
+        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.5fr; gap: 40px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 60px; max-width: 1400px; margin: 0 auto; }
+        .f-brand h2 { font-family: 'Italiana'; font-size: 2.5rem; color: #fff; margin-bottom: 20px; }
+        .socials { display: flex; gap: 15px; }
+        .s-btn { width: 40px; height: 40px; background: #8D7B68; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #2C2622; transition: 0.3s; }
+        .f-col h4 { font-family: 'Cinzel'; font-size: 0.9rem; color: #fff; letter-spacing: 2px; margin-bottom: 25px; }
+        .f-col ul { list-style: none; } .f-col li { margin-bottom: 12px; }
+        .f-col a { font-size: 0.95rem; opacity: 0.7; transition: 0.3s; } .f-col a:hover { opacity: 1; color: var(--accent-gold); }
+        .contact-row { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; font-size: 0.95rem; opacity: 0.8; }
+        .copyright { text-align: center; margin-top: 40px; font-size: 0.8rem; opacity: 0.5; }
+
+        .reveal { opacity: 0; transform: translateY(50px); transition: 1s var(--ease-lux); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo brand-font">Nubelle</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="categories.html">Shop Categories</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="product-care.html" class="active">Product Care</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="toolbar">
+            <button class="t-btn" id="currBtn" onclick="toggleCurrency()">MYR</button>
+            <button class="t-btn" onclick="toggleTheme()"><i class="fas fa-moon"></i></button>
+            <a href="cart.html" class="t-btn">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="cart-badge" id="cartCount">0</span>
+            </a>
+        </div>
+    </header>
+
+    <section class="care-hero">
+        <img src="img/care/intro product care.jfif" class="care-bg" alt="Leather Care">
+        <div class="hero-content">
+            <h1>Preserving the <span class="serif-italic">Legacy</span></h1>
+            <p class="subtitle">A Guide to Caring for Your Nubelle Essentials</p>
+        </div>
+    </section>
+
+    <div class="care-intro reveal">
+        <h2>"Quality improves with care."</h2>
+        <p>Our products are crafted to be companions for your daily journey. To ensure they age beautifully and maintain their structure, we recommend following these simple yet essential care rituals.</p>
+    </div>
+
+    <main>
+        <section class="care-section reveal">
+            <div class="care-img">
+                <img src="img/care/handbag care.jpg" alt="Handbag Care">
+            </div>
+            <div class="care-text">
+                <div class="subtitle">For Your Collection</div>
+                <h3>Handbag Care</h3>
+                <ul class="care-list">
+                    <li><strong>Climate Control</strong> Store in a cool, dry place away from direct sunlight to prevent color fading and material cracking.</li>
+                    <li><strong>Gentle Cleansing</strong> Clean gently with a soft, dry, or slightly damp microfiber cloth. Avoid harsh chemicals.</li>
+                    <li><strong>Maintain Structure</strong> When not in use, keep bags in a dust bag and fill lightly with tissue paper to retain form.</li>
+                    <li><strong>Mindful Usage</strong> Avoid overloading your bag with heavy items to preserve the integrity of the straps.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="care-section alt reveal">
+            <div class="care-img">
+                <img src="img/care/shoes care.jpg" alt="Sandal Care">
+            </div>
+            <div class="care-text">
+                <div class="subtitle">Step With Care</div>
+                <h3>Footwear Care</h3>
+                <ul class="care-list">
+                    <li><strong>Post-Wear Routine</strong> Wipe clean after every use to remove surface dust and street dirt.</li>
+                    <li><strong>Moisture Management</strong> Avoid prolonged contact with water. If exposed, allow sandals to air-dry naturally.</li>
+                    <li><strong>Proper Storage</strong> Store in a dry, well-ventilated area. Use shoe trees or stuffing for closed-toe styles.</li>
+                    <li><strong>Leather Protection</strong> For leather sandals, consider applying a specialized conditioner every few months.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="general-care reveal">
+            <div class="subtitle">Universal Guidelines</div>
+            <h3 style="font-size: 2.5rem; margin-top: 10px;">The Nubelle Standard</h3>
+            <div class="gc-grid">
+                <div class="gc-item">
+                    <div class="gc-icon"><i class="fas fa-hand-sparkles"></i></div>
+                    <h4>Handle with Care</h4>
+                    <p>Treat every clasp, zipper, and stitch with gentleness. Rough handling is the primary cause of premature wear.</p>
+                </div>
+                <div class="gc-item">
+                    <div class="gc-icon"><i class="fas fa-clipboard-list"></i></div>
+                    <h4>Follow Instructions</h4>
+                    <p>Always refer to the specific care card provided with your purchase for material-specific nuances.</p>
+                </div>
+                <div class="gc-item">
+                    <div class="gc-icon"><i class="fas fa-infinity"></i></div>
+                    <h4>Long-Term Value</h4>
+                    <p>Proper maintenance not only extends the lifespan of your item but preserves its value as a vintage piece.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="chat-widget">
+    <div class="chat-box" id="chatBox">
+        <div class="chat-header">
+            <h4>Nubelle Assistant</h4>
+            <div class="close-chat" onclick="toggleChat()"><i class="fas fa-times"></i></div>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div class="msg bot">
+                Hello! I am your personal Nubelle assistant. Ask me about <strong>Care</strong>, <strong>Materials</strong>, or <strong>Styling</strong>.
+            </div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="userInput" class="chat-input" placeholder="Type a question..." onkeypress="handleEnter(event)">
+            <div class="send-btn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></div>
+        </div>
+    </div>
+
+    <button class="chat-btn" onclick="toggleChat()">
+        N
+    </button>
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="f-brand">
+                <h2>Nubelle</h2>
+                <p>Premium quality bags and sandals crafted with excellence. Redefining daily luxury for the modern soul.</p>
+                <div class="socials">
+                    <a href="#" class="s-btn"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="s-btn"><i class="fab fa-tiktok"></i></a>
+                    <a href="#" class="s-btn"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+            <div class="f-col"><h4>QUICK LINKS</h4><ul><li><a href="about.html">About Us</a></li><li><a href="categories.html">Shop All</a></li><li><a href="product-care.html">Product Care</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+            <div class="f-col"><h4>POLICIES</h4><ul><li><a href="privacy-policy.html">Privacy Policy</a></li><li><a href="terms-conditions.html">Terms & Conditions</a></li><li><a href="shipping-policy.html">Shipping Policy</a></li><li><a href="return-policy.html">Returns  Policy</a></li></ul></div>
+            <div class="f-col"><h4>CONTACT US</h4><ul><li class="contact-row"><i class="fas fa-envelope"></i> nubelle.my@gmail.com</li><li class="contact-row"><i class="fas fa-map-marker-alt"></i> Kuala Lumpur, Malaysia</li><li class="contact-row"><i class="fas fa-clock"></i> Mon - Fri: 9am - 6pm</li></ul></div>
+        </div>
+        <div class="copyright">&copy; 2026 Nubelle. All rights reserved.</div>
+    </footer>
+
+    <script>
+        // --- GENIUS AI LOGIC ---
+function toggleChat() {
+    document.getElementById('chatBox').classList.toggle('active');
+}
+
+function handleEnter(e) {
+    if (e.key === 'Enter') sendMessage();
+}
+
+function sendMessage() {
+    const input = document.getElementById('userInput');
+    const text = input.value.trim().toLowerCase();
+    if (!text) return;
+
+    addMessage(input.value, 'user');
+    input.value = '';
+
+    setTimeout(() => {
+        let reply = "I'm not sure I understand. You can ask about 'cleaning', 'materials', 'Magetta bags', or 'styling advice'.";
+
+        // 1. MATERIAL & QUALITY
+        if (text.includes('material') || text.includes('leather') || text.includes('synthetic') || text.includes('made of')) {
+            reply = "Our products are crafted using a combination of high-quality genuine leather and premium synthetic materials. This hybrid approach ensures durability, comfort, and a luxurious aesthetic.";
+        }
+        
+        // 2. HANDBAG CARE
+        else if (text.includes('overload') || text.includes('heavy') || text.includes('shape')) {
+            reply = "Avoid overloading your bag as heavy weight can compromise its shape and loosen stitching. We recommend filling it lightly with tissue paper when storing to retain its form.";
+        } 
+        else if (text.includes('bag') || text.includes('handbag')) {
+            reply = "For handbags: Store in a cool, dry place away from sunlight. Use the provided dust bag. Clean gently with a soft, dry cloth and avoid harsh chemicals.";
+        }
+
+        // 3. FOOTWEAR CARE
+        else if (text.includes('water') || text.includes('wet') || text.includes('rain')) {
+            reply = "If your sandals get wet, allow them to air-dry naturally at room temperature. Never use direct heat sources like hair dryers, as this can weaken the adhesives.";
+        }
+        else if (text.includes('sandal') || text.includes('shoe') || text.includes('sole')) {
+            reply = "For sandals: Minimize continuous water exposure to protect the sole bonding. Store them in a dry, well-ventilated area to prevent moisture buildup.";
+        }
+
+        // 4. COLLECTION KNOWLEDGE
+        else if (text.includes('magetta')) {
+            reply = "The Magetta Collection is our signature line, known for its structured weave design. It is perfect for both casual outings and formal events.";
+        }
+        else if (text.includes('vittoria') || text.includes('aria')) {
+            reply = "The Vittoria Aria is our elegant tote collection, offering ample space without compromising on style. Ideal for the modern professional.";
+        }
+        else if (text.includes('amity') || text.includes('Collections')) {
+            reply = "Amity Collections are designed for all-day comfort with a cushioned sole. They feature a classic silhouette that pairs well with trousers or skirts.";
+        }
+        else if (text.includes('celine') || text.includes('Collections')) {
+            reply = "Celine Collecions provide a sophisticated lift with excellent stability. Available in deep tones like Bitter Coco and Midnight Onyx.";
+        }
+
+        // 5. STYLING & GENERAL
+        else if (text.includes('style') || text.includes('wear') || text.includes('outfit')) {
+            reply = "Styling Tip: Pair our Magetta bag with neutral linen for a breezy look, or wear the Celine Heels with tailored trousers for a sharp, commanding presence.";
+        }
+        else if (text.includes('clean') || text.includes('dirt') || text.includes('wash')) {
+            reply = "To clean: Use a soft, slightly damp cloth to wipe away surface dust. Avoid abrasive tools or soaking the product in water.";
+        }
+        else if (text.includes('store') || text.includes('storage')) {
+            reply = "Always store items in a cool, dry place. Handbags should be kept in dust bags, and shoes in a ventilated area to prevent mold or deformation.";
+        }
+        else if (text.includes('hello') || text.includes('hi')) {
+            reply = "Hello! I am here to help you preserve the beauty of your Nubelle items. Ask me about care, materials, or specific collections.";
+        }
+
+        addMessage(reply, 'bot');
+    }, 600);
+}
+
+function addMessage(text, sender) {
+    const body = document.getElementById('chatBody');
+    const div = document.createElement('div');
+    div.className = `msg ${sender}`;
+    div.innerHTML = text;
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+}
+
+        function addMessage(text, sender) {
+            const body = document.getElementById('chatBody');
+            const div = document.createElement('div');
+            div.className = `msg ${sender}`;
+            div.innerHTML = text;
+            body.appendChild(div);
+            body.scrollTop = body.scrollHeight; // Auto scroll to bottom
+        }
+
+        // --- STANDARD SITE LOGIC ---
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('active'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        window.addEventListener('scroll', () => {
+            document.querySelector('header').classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Currency & Theme (Standard)
+        const rates = { MYR: 1, IDR: 3500, USD: 0.24 };
+        const currencies = ["MYR", "IDR", "USD"];
+        let curIdx = parseInt(localStorage.getItem('nubelle_curr')) || 0;
+
+        function toggleTheme() {
+            const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('nubelle_theme', next);
+        }
+        function toggleCurrency() {
+            curIdx = (curIdx + 1) % currencies.length;
+            localStorage.setItem('nubelle_curr', curIdx);
+            document.getElementById('currBtn').innerText = currencies[curIdx];
+        }
+
+        function updateCartCount() {
+            const count = parseInt(localStorage.getItem('nubelle_cart_count')) || 0;
+            const badge = document.getElementById('cartCount');
+            if(badge) {
+                badge.innerText = count;
+                if(count > 0) badge.classList.add('show');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if(localStorage.getItem('nubelle_theme') === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+            document.getElementById('currBtn').innerText = currencies[curIdx];
+            updateCartCount();
+        });
+    </script>
+</body>
+</html>
